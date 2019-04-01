@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
+import {Link} from 'react-router-dom';
 import axios from 'axios';
 
 export default class MovieList extends Component {
@@ -13,7 +14,7 @@ export default class MovieList extends Component {
     axios
       .get('http://localhost:5000/api/movies')
       .then(response => {
-        this.setState(() => ({ movies: response.data }));
+        this.setState(() => ({movies: response.data}));
       })
       .catch(error => {
         console.error('Server Error', error);
@@ -24,15 +25,19 @@ export default class MovieList extends Component {
     return (
       <div className="movie-list">
         {this.state.movies.map(movie => (
-          <MovieDetails key={movie.id} movie={movie} />
+          <Link to={`/movies/${movie.id}`} key={movie.id}>
+            {' '}
+            <MovieDetails movie={movie} />
+          </Link>
         ))}
       </div>
     );
   }
 }
 
-function MovieDetails({ movie }) {
-  const { title, director, metascore, stars } = movie;
+function MovieDetails({movie}) {
+  const {title, director, metascore, stars} = movie;
+
   return (
     <div className="movie-card">
       <h2>{title}</h2>
